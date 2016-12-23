@@ -7,23 +7,51 @@ Args:
 """
 
 from Models.Point import Point
+import numpy
 
 class Profile(object):
 
-    def __init__(self, center=None, points=[]):
+    def __init__(self, center=None, x_coordinates=None, y_coordinates=None):
 
         if center is None:
             self.center = Point(0,0)
         else :
             self.center = center
 
-        if points is None:
-            self.points = []
-        else :
-            self.points = points
+        if x_coordinates is None:
+            self.x_coordinates = numpy.array([])
+        else:
+            self.x_coordinates = x_coordinates
 
-    def add_point(self,point):
-        self.points.append(point)
+        if y_coordinates is None:
+            self.y_coordinates = numpy.array([])
+        else:
+            self.y_coordinates = y_coordinates
+
+
+    @property
+    def x_coordinates(self):
+        return self.__x_coordinates
+
+    @x_coordinates.setter
+    def x_coordinates(self,x_coordinates):
+        if type(x_coordinates) is numpy.ndarray:
+            self.__x_coordinates = x_coordinates
+        else:
+            self.__x_coordinates = numpy.array([])
+
+
+    @property
+    def y_coordinates(self):
+        return self.__y_coordinates
+
+    @y_coordinates.setter
+    def y_coordinates(self,y_coordinates):
+        if type(y_coordinates) is numpy.ndarray:
+            self.__y_coordinates = y_coordinates
+        else:
+            self.__y_coordinates = numpy.array([])
+
 
     @property
     def center(self):
@@ -36,17 +64,13 @@ class Profile(object):
         else:
             self.__center = Point(0,0)
 
-    @property
-    def points(self):
-        return self.__points
-
-    @points.setter
-    def points(self,points):
-        if points is None:
-            self.__points = []
-        else:
-            self.__points = points
 
     def __repr__(self):
-        return "Center of profile: "+str(self.center)+" with points -->"+str(self.points)+"\n"
+        return "Center of profile: "+str(self.center)+"with points --> "+self.string_representation_of_points()
+
+
+    def string_representation_of_points(self):
+        return "Falta poner"
+
+
 
