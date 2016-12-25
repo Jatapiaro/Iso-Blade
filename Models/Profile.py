@@ -2,12 +2,15 @@
 The class Profile represents a collection of points and a center for the profile
 
 Args:
-    points (List-->Points): List of points
+    x_coordinates (ndarray): array with al x coordinates of the profile
+    y_coordinates (ndarray): array with al y coordinates of the profile
     center (point): A Point that represent the center
 """
 
 from Models.Point import Point
 import numpy
+
+numpy.set_printoptions(suppress=True)
 
 class Profile(object):
 
@@ -66,11 +69,14 @@ class Profile(object):
 
 
     def __repr__(self):
-        return "Center of profile: "+str(self.center)+"with points --> "+self.string_representation_of_points()
+        return "Center of profile: "+str(self.center)+"with points -->\n"+self.string_representation_of_points()
 
 
     def string_representation_of_points(self):
-        return "Falta poner"
+        stack = numpy.column_stack((self.x_coordinates,self.y_coordinates))
+        return str(stack)
+
+
 
 
 

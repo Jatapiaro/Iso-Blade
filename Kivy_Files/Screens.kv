@@ -1,0 +1,28 @@
+<InitialScreen>:
+    BoxLayout:
+        orientation: "vertical"
+
+        BoxLayout:
+            orientation: "horizontal"
+            Label:
+                text: "Iso-Blade"
+
+        BoxLayout:
+            orientation: "horizontal"
+            Button:
+                text: "New blade"
+
+        BoxLayout:
+            orientation: "horizontal"
+
+            Button:
+                text: "Load existing blade"
+
+
+        BoxLayout:
+            orientation: "horizontal"
+            Button:
+                text: "Exit"
+                on_press: root.close_app()
+
+
