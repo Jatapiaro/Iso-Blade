@@ -11,6 +11,7 @@
             orientation: "horizontal"
             Button:
                 text: "New blade"
+                on_press: root.new_blade()
 
         BoxLayout:
             orientation: "horizontal"
@@ -25,4 +26,34 @@
                 text: "Exit"
                 on_press: root.close_app()
 
+<AnotherScreen>:
+    BoxLayout:
+        Label:
+            text: "Holis"
 
+<SaveDialog>:
+    file_name: text_input
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserIconView:
+            id: filechooser
+            on_selection: text_input.text = self.selection and self.selection[0] or ''
+
+        TextInput:
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.dismiss()
+
+            Button:
+                text: "Save"
+                on_release: root.save_file(filechooser.path,text_input.text)
