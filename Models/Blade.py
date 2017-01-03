@@ -3,7 +3,7 @@ The class Blade represents a collection of profiles
 By now, the class is only saving Profiles
 
 Args:
-    profiles: A collection of the profiles for a blade
+    profiles: A collection of profiles for a blade
 """
 from Models.Profile import Profile
 

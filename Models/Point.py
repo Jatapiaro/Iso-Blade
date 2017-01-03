@@ -35,20 +35,18 @@ class Point(object):
             self.__y = 0
 
 
-
     def __lt__ (self, other):
 
         """Compare if a Point is greater than other.
 
-        The criteria used in this method is that a profile file,
-        must pass the points from (1,0) to (0,0) to (1,0),
-        it means that first we need the points with positive 'y'
-        and also verify which point has the greater 'x'
+        It only verifies the x coordinate, so in the outside you must have two
+        list, one with the Points with negative y, other with the positive y;
+        then sort each one and finally concatenate them
 
         Keyword arguments:
         other -- other point with x and y coordinates
         """
-        return self.x < other.x and self.y < other.y
+        return self.x < other.x
 
     def __gt__ (self, other):
         return other.__lt__(self)
