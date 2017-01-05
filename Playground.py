@@ -48,8 +48,11 @@ for point in points:
 numpy_coordinates_x = np.array(x_coordinates)
 numpy_coordinates_y = np.array(y_coordinates)
 
-plt.plot(numpy_coordinates_x,numpy_coordinates_y)
+p.x_coordinates = numpy_coordinates_x
+p.y_coordinates = numpy_coordinates_y
+
+st = np.column_stack((numpy_coordinates_x,numpy_coordinates_y))
+
+plt.plot(p.x_coordinates,p.y_coordinates)
 
 plt.show()
-
-print(points)

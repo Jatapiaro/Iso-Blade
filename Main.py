@@ -38,7 +38,6 @@ class SaveDialog(Popup):
 
     def save_file(self,path,file_name):
         blade = Blade()
-        file_name
         print("Write "+file_name+" in "+path)
         file_name+=".ibd"
         path+="/"+file_name

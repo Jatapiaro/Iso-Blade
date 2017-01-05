@@ -27,9 +27,7 @@
                 on_press: root.close_app()
 
 <AnotherScreen>:
-    BoxLayout:
-        Label:
-            text: "Holis"
+
 
 <SaveDialog>:
     file_name: text_input
@@ -39,7 +37,7 @@
         orientation: "vertical"
         FileChooserIconView:
             id: filechooser
-            on_selection: text_input.text = self.selection and self.selection[0] or ''
+            ##on_selection: text_input.text = self.selection and self.selection[0] or ''
 
         TextInput:
             id: text_input
