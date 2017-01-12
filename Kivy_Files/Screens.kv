@@ -27,9 +27,18 @@
                 on_press: root.close_app()
 
 <AnotherScreen>:
+    BoxLayout:
+        id:box_box
+        Button:
+            id:the_button
+            text:"Hola"
+            on_press: root.say_hi()
+        BoxLayout:
+            id:box_box2
 
 
 <SaveDialog>:
+    ##external_name: internal_name
     file_name: text_input
     BoxLayout:
         size: root.size
