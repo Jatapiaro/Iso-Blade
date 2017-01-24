@@ -1,7 +1,46 @@
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+#: import ListItemButton kivy.uix.listview.ListItemButton
+#: import WorkingScreen working_blade
+
 <WorkingScreen>:
+
+    control_points_input: control_points
+    percentage_input: percentage
+    profile_list: profiles
+
     BoxLayout:
-        Button:
-            text:"Hola"
-            on_press: root.draw()
+        orientation: "vertical"
+
         BoxLayout:
-            id:drawing_box
+            size_hint_y: None
+            height: "40dp"
+            orientation: "horizontal"
+            Button:
+                text: "Load profile"
+
+        BoxLayout:
+            size_hint_y: None
+            height: "40dp"
+            orientation: "horizontal"
+            Label:
+                text:"Control points"
+            TextInput:
+                id: control_points
+            Label:
+                text:"% of some"
+            TextInput:
+                id: percentage
+            Button:
+                text: "Fit profiles"
+
+        BoxLayout:
+
+            orientation: "horizontal"
+
+            ListView
+                id: profiles
+                adapter:
+                    ListAdapter(data=[],cls=working_blade.profiles)
+
+            BoxLayout:
+                id:drawing_box

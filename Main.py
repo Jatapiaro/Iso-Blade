@@ -15,6 +15,8 @@ from kivy.lang import Builder
 from kivy.uix.popup import Popup
 from kivy.properties import ObjectProperty
 from Models.Blade import Blade
+from kivy.properties import ObjectProperty
+from kivy.uix.listview import ListItemButton
 
 
 Builder.load_file('Kivy_Files/InitialScreen.kv')
@@ -40,6 +42,12 @@ class InitialScreen(Screen):
 
 
 class WorkingScreen(Screen):
+
+    working_blade = blade
+
+    control_points_input = ObjectProperty()
+    percentage_input =  ObjectProperty()
+    profile_list = ObjectProperty()
 
     def on_pre_enter(self, *args):
         fig, ax = plt.subplots()
