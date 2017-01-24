@@ -2,6 +2,8 @@ from Models.Point import Point
 from Models.Profile import Profile
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy.interpolate as intp
+
 import csv
 
 np.set_printoptions(suppress=True)
@@ -54,5 +56,6 @@ p.y_coordinates = numpy_coordinates_y
 st = np.column_stack((numpy_coordinates_x,numpy_coordinates_y))
 
 plt.plot(p.x_coordinates,p.y_coordinates)
+
 
 plt.show()

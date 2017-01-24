@@ -5,6 +5,7 @@ Args:
     x (float): x value of the coordinate
     y (float): y value of the coordinate
 """
+
 class Point(object):
 
 

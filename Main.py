@@ -17,7 +17,9 @@ from kivy.properties import ObjectProperty
 from Models.Blade import Blade
 
 
-Builder.load_file('Kivy_Files/Screens.kv')
+Builder.load_file('Kivy_Files/InitialScreen.kv')
+Builder.load_file('Kivy_Files/WorkingScreen.kv')
+Builder.load_file('Kivy_Files/SaveLoad.kv')
 
 blade = Blade()
 
@@ -37,24 +39,26 @@ class InitialScreen(Screen):
        App.get_running_app().stop()
 
 
-class AnotherScreen(Screen):
+class WorkingScreen(Screen):
 
     def on_pre_enter(self, *args):
         fig, ax = plt.subplots()
-        self.ids['box_box2'].clear_widgets()
-        self.ids['box_box2'].add_widget(fig.canvas)
+        self.ids['drawing_box'].clear_widgets()
+        self.ids['drawing_box'].add_widget(fig.canvas)
 
-    def say_hi(self):
+    def draw(self):
         fig, ax = plt.subplots()
-        self.ids['box_box2'].clear_widgets()
-        self.ids['box_box2'].add_widget(fig.canvas)
+        ax.plot([1, 2, 3])
+        ax.plot([-1, -2, -3])
+        self.ids['drawing_box'].clear_widgets()
+        self.ids['drawing_box'].add_widget(fig.canvas)
 
 
 
 
 screen_manager = ScreenManager()
 screen_manager.add_widget(InitialScreen(name="initial_screen"))
-screen_manager.add_widget(AnotherScreen(name="another_screen"))
+screen_manager.add_widget(WorkingScreen(name="working_screen"))
 
 
 class SaveDialog(Popup):
@@ -67,7 +71,7 @@ class SaveDialog(Popup):
         file_name+=".ibd"
         path+="/"+file_name
         pickle._dump(blade, open(path, "wb" ))
-        screen_manager.current = 'another_screen'
+        screen_manager.current = 'working_screen'
         self.dismiss()
 
 
