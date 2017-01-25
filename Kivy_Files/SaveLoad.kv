@@ -33,6 +33,27 @@
         orientation: "vertical"
         FileChooserIconView:
             id: filechooser
+            filters: ['*.csv']
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.dismiss()
+
+            Button:
+                text: "Load"
+                on_release: root.load_profile(filechooser.path,filechooser.selection)
+
+<LoadBladeDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserIconView:
+            id: filechooser
+            filters: ['*.ibd']
 
         BoxLayout:
             size_hint_y: None

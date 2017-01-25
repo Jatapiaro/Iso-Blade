@@ -14,6 +14,8 @@ def update_blade(blade,path):
     pickle._dump(blade,open(path,"wb"))
     return path
 
+def load_blade(path):
+    pass
 
 def load_profile(path):
 

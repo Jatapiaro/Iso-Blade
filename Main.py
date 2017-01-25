@@ -3,19 +3,14 @@ import matplotlib
 matplotlib.use('module://kivy.garden.matplotlib.backend_kivy')
 from kivy.garden.matplotlib.backend_kivyagg import FigureCanvas,\
                                                 NavigationToolbar2Kivy
+
 import matplotlib.pyplot as plt
 from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager,Screen
-from kivy.uix.widget import Widget
-from kivy.uix.label import Label
-from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.uix.popup import Popup
-from kivy.properties import ObjectProperty
 from Models.Blade import Blade
 from kivy.properties import ObjectProperty
-from kivy.uix.listview import ListItemButton
 
 from Models.Profile import Profile
 from IsoBladeModules import FilesModule
@@ -89,14 +84,22 @@ class SaveDialog(Popup):
 class LoadDialog(Popup):
 
     def load_profile(self,path,file_name):
+
         print("Path of profile: "+file_name[0])
+
         x_points,y_points = FilesModule.load_profile(file_name[0])
+
         p = Profile(x_points,y_points)
+
         screen_manager.get_screen("working_screen").blade.add_profile(p)
+
         FilesModule.update_blade(
             screen_manager.get_screen("working_screen").blade,
             screen_manager.get_screen("working_screen").blade_path)
         self.dismiss()
+
+    def load_blade(self,path):
+        pass
 
 
 class IsoBladeApp(App):
