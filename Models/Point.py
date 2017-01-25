@@ -9,9 +9,10 @@ Args:
 class Point(object):
 
 
-    def __init__(self,x=0,y=0):
+    def __init__(self,x=0,y=0,z=None):
         self.x = x
         self.y = y
+        self.z = z;
 
     @property
     def x(self):
@@ -34,6 +35,18 @@ class Point(object):
             self.__y = y
         else:
             self.__y = 0
+
+
+    @property
+    def z(self):
+        return self.__z
+
+    @z.setter
+    def z(self,z):
+        if isinstance(z,float):
+            self.__z = z
+        else:
+            self.__z = 0
 
 
     def __lt__ (self, other):

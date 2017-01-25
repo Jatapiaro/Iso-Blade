@@ -12,15 +12,9 @@ class Blade(object):
     def __init__(self, profiles=None):
 
         if profiles is None:
-            profiles = []
+            self.profiles = []
         else:
             self.profiles = profiles
-
-
-    def add_profile(self,profile):
-        if profile is not None:
-            self.profiles.append(profile)
-
 
     @property
     def profiles(self):
@@ -32,6 +26,10 @@ class Blade(object):
             self.__profiles = profiles
         else:
             self.__profiles = profiles
+
+    def add_profile(self,profile):
+        if profile is not None:
+            self.profiles.append(profile)
 
     def __repr__(self):
         str = ""

@@ -14,11 +14,12 @@ numpy.set_printoptions(suppress=True)
 
 class Profile(object):
 
-    def __init__(self, center=None, x_coordinates=None, y_coordinates=None):
+    def __init__(self, x_coordinates = None,
+                 y_coordinates = None, center = None):
 
         if center is None:
             self.center = Point(0,0)
-        else :
+        else:
             self.center = center
 
         if x_coordinates is None:

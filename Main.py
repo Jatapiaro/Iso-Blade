@@ -3,7 +3,6 @@ import matplotlib
 matplotlib.use('module://kivy.garden.matplotlib.backend_kivy')
 from kivy.garden.matplotlib.backend_kivyagg import FigureCanvas,\
                                                 NavigationToolbar2Kivy
-import pickle
 import matplotlib.pyplot as plt
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
@@ -18,18 +17,16 @@ from Models.Blade import Blade
 from kivy.properties import ObjectProperty
 from kivy.uix.listview import ListItemButton
 
+from Models.Profile import Profile
+from IsoBladeModules import FilesModule
+
 
 Builder.load_file('Kivy_Files/InitialScreen.kv')
 Builder.load_file('Kivy_Files/WorkingScreen.kv')
 Builder.load_file('Kivy_Files/SaveLoad.kv')
 
-blade = Blade()
-
-class Prueba(BoxLayout):
-    pass
 
 class InitialScreen(Screen):
-
    def new_blade(self):
        save_dialog = SaveDialog()
        save_dialog.open()
@@ -43,7 +40,8 @@ class InitialScreen(Screen):
 
 class WorkingScreen(Screen):
 
-    working_blade = blade
+    blade = Blade()
+    blade_path = ""
 
     control_points_input = ObjectProperty()
     percentage_input =  ObjectProperty()
@@ -53,6 +51,10 @@ class WorkingScreen(Screen):
         fig, ax = plt.subplots()
         self.ids['drawing_box'].clear_widgets()
         self.ids['drawing_box'].add_widget(fig.canvas)
+
+    def load_profile(self):
+        load_dialog = LoadDialog()
+        load_dialog.open()
 
     def draw(self):
         fig, ax = plt.subplots()
@@ -74,12 +76,26 @@ class SaveDialog(Popup):
     file_name = ObjectProperty(None)
 
     def save_file(self,path,file_name):
-        blade = Blade()
-        print("Write "+file_name+" in "+path)
-        file_name+=".ibd"
-        path+="/"+file_name
-        pickle._dump(blade, open(path, "wb" ))
+
+        path = FilesModule.save_blade(
+            screen_manager.get_screen("working_screen").blade,file_name,path)
+
+        screen_manager.get_screen("working_screen").blade_path = path
         screen_manager.current = 'working_screen'
+
+        self.dismiss()
+
+
+class LoadDialog(Popup):
+
+    def load_profile(self,path,file_name):
+        print("Path of profile: "+file_name[0])
+        x_points,y_points = FilesModule.load_profile(file_name[0])
+        p = Profile(x_points,y_points)
+        screen_manager.get_screen("working_screen").blade.add_profile(p)
+        FilesModule.update_blade(
+            screen_manager.get_screen("working_screen").blade,
+            screen_manager.get_screen("working_screen").blade_path)
         self.dismiss()
 
 

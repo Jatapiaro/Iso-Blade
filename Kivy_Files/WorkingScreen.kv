@@ -1,6 +1,5 @@
 #: import ListAdapter kivy.adapters.listadapter.ListAdapter
 #: import ListItemButton kivy.uix.listview.ListItemButton
-#: import WorkingScreen working_blade
 
 <WorkingScreen>:
 
@@ -17,6 +16,7 @@
             orientation: "horizontal"
             Button:
                 text: "Load profile"
+                on_press: root.load_profile()
 
         BoxLayout:
             size_hint_y: None
@@ -39,8 +39,6 @@
 
             ListView
                 id: profiles
-                adapter:
-                    ListAdapter(data=[],cls=working_blade.profiles)
 
             BoxLayout:
                 id:drawing_box
