@@ -20,7 +20,10 @@ Builder.load_file('Kivy_Files/SaveLoad.kv')
 
 
 class ProfileListButton(ListItemButton):
-    pass
+
+    def change(self,change):
+        print("Currente: "+str(screen_manager.get_screen("working_screen").profile_list.adapter.selection))
+
 
 
 class InitialScreen(Screen):
