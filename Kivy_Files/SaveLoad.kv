@@ -27,6 +27,7 @@
                 on_release: root.save_file(filechooser.path,text_input.text)
 
 <LoadDialog>:
+    profile_name: text_input
     BoxLayout:
         size: root.size
         pos: root.pos
@@ -34,6 +35,12 @@
         FileChooserIconView:
             id: filechooser
             filters: ['*.csv']
+
+        TextInput:
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
 
         BoxLayout:
             size_hint_y: None

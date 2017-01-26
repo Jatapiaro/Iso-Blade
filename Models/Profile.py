@@ -15,7 +15,7 @@ numpy.set_printoptions(suppress=True)
 class Profile(object):
 
     def __init__(self, x_coordinates = None,
-                 y_coordinates = None, center = None):
+                 y_coordinates = None, center = None, name = None):
 
         if center is None:
             self.center = Point(0,0)
@@ -31,6 +31,11 @@ class Profile(object):
             self.y_coordinates = numpy.array([])
         else:
             self.y_coordinates = y_coordinates
+
+        if name is None :
+            self.name = ""
+        else:
+            self.name = name
 
 
     @property
@@ -65,6 +70,17 @@ class Profile(object):
     def center(self,center):
         if isinstance(center,Point):
             self.__center = center
+        else:
+            self.__center = Point(0,0)
+
+    @property
+    def name(self):
+        return self.__name
+
+    @center.setter
+    def center(self,name):
+        if isinstance(name,str):
+            self.__name = name
         else:
             self.__center = Point(0,0)
 

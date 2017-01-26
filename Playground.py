@@ -2,7 +2,6 @@ from Models.Point import Point
 from Models.Profile import Profile
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.interpolate as intp
 
 import csv
 

@@ -1,5 +1,7 @@
+#: import main Main
 #: import ListAdapter kivy.adapters.listadapter.ListAdapter
 #: import ListItemButton kivy.uix.listview.ListItemButton
+
 
 <WorkingScreen>:
 
@@ -40,6 +42,8 @@
 
             ListView
                 id: profiles
+                adapter:
+                    ListAdapter(data=[],cls=main.ProfileListButton)
 
             BoxLayout:
                 id:drawing_box

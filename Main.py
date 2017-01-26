@@ -3,22 +3,24 @@ import matplotlib
 matplotlib.use('module://kivy.garden.matplotlib.backend_kivy')
 from kivy.garden.matplotlib.backend_kivyagg import FigureCanvas,\
                                                 NavigationToolbar2Kivy
-
+from kivy.uix.screenmanager import ScreenManager,Screen
+from kivy.uix.listview import ListItemButton
+from kivy.properties import ObjectProperty
+from IsoBladeModules import FilesModule
+from Models.Profile import Profile
+from kivy.uix.popup import Popup
+from kivy.lang import Builder
+from Models.Blade import Blade
 import matplotlib.pyplot as plt
 from kivy.app import App
-from kivy.uix.screenmanager import ScreenManager,Screen
-from kivy.lang import Builder
-from kivy.uix.popup import Popup
-from Models.Blade import Blade
-from kivy.properties import ObjectProperty
-
-from Models.Profile import Profile
-from IsoBladeModules import FilesModule
-
 
 Builder.load_file('Kivy_Files/InitialScreen.kv')
 Builder.load_file('Kivy_Files/WorkingScreen.kv')
 Builder.load_file('Kivy_Files/SaveLoad.kv')
+
+
+class ProfileListButton(ListItemButton):
+    pass
 
 
 class InitialScreen(Screen):
@@ -59,8 +61,6 @@ class WorkingScreen(Screen):
         self.ids['drawing_box'].add_widget(fig.canvas)
 
 
-
-
 screen_manager = ScreenManager()
 screen_manager.add_widget(InitialScreen(name="initial_screen"))
 screen_manager.add_widget(WorkingScreen(name="working_screen"))
@@ -83,6 +83,8 @@ class SaveDialog(Popup):
 
 class LoadDialog(Popup):
 
+    profile_name = ObjectProperty(None)
+
     def load_profile(self,path,file_name):
 
         print("Path of profile: "+file_name[0])
@@ -96,6 +98,13 @@ class LoadDialog(Popup):
         FilesModule.update_blade(
             screen_manager.get_screen("working_screen").blade,
             screen_manager.get_screen("working_screen").blade_path)
+
+        p = screen_manager.get_screen("working_screen").blade.profiles[-1]
+
+        screen_manager.get_screen("working_screen").profile_list.adapter.data.extend([p])
+
+        screen_manager.get_screen("working_screen").profile_list._trigger_reset_populate()
+
         self.dismiss()
 
     def load_blade(self,path):
