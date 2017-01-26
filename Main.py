@@ -172,6 +172,8 @@ class LoadBladeDialog(Popup):
     def load_blade(self,path):
         screen_manager.get_screen(
             "working_screen").blade = FilesModule.load_blade(path[0])
+        screen_manager.get_screen(
+            "working_screen").blade_path = path[0]
         screen_manager.current = 'working_screen'
         self.dismiss()
 
