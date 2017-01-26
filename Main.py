@@ -69,7 +69,9 @@ class WorkingScreen(Screen):
     def draw_on_profile_load(self):
         fig, ax = plt.subplots()
         p = self.blade.profiles[-1]
+        plt.axis([-0.2, 1.2, -0.7, .7])
         plt.plot(p.x_coordinates,p.y_coordinates)
+        plt.plot(p.center.x, p.center.y,'g^')
         self.ids['drawing_box'].clear_widgets()
         self.ids['drawing_box'].add_widget(fig.canvas)
 
@@ -78,7 +80,9 @@ class WorkingScreen(Screen):
         for profile in self.blade.profiles:
             if profile.name == self.profile_selected:
                 self.ids['drawing_box'].clear_widgets()
-                ax.plot(profile.x_coordinates,profile.y_coordinates)
+                plt.axis([-0.2, 1.2, -0.7, .7])
+                plt.plot(profile.x_coordinates,profile.y_coordinates)
+                plt.plot(profile.center.x, profile.center.y,'g^')
                 self.ids['drawing_box'].add_widget(fig.canvas)
                 break
 
@@ -90,7 +94,9 @@ class WorkingScreen(Screen):
         self.profile_list.adapter.get_view(0).trigger_action(duration=0)
         fig, ax = plt.subplots()
         p = self.blade.profiles[0]
+        plt.axis([-0.2, 1.2, -0.7, .7])
         plt.plot(p.x_coordinates,p.y_coordinates)
+        plt.plot(p.center.x,p.center.y,'g^')
         self.ids['drawing_box'].clear_widgets()
         self.ids['drawing_box'].add_widget(fig.canvas)
 
