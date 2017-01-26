@@ -58,8 +58,7 @@ class WorkingScreen(Screen):
         load_dialog.open()
 
     def draw_on_change(self):
-        if self.profile_list.adapter.selection:
-            print(self.profile_list.adapter.selection[0].text)
+        pass
 
 
     def draw(self):
@@ -86,7 +85,6 @@ class SaveDialog(Popup):
 
         screen_manager.get_screen("working_screen").blade_path = path
         screen_manager.current = 'working_screen'
-
         self.dismiss()
 
 
@@ -111,13 +109,21 @@ class LoadDialog(Popup):
             screen_manager.get_screen("working_screen").blade,
             screen_manager.get_screen("working_screen").blade_path)
 
+
         p = screen_manager.get_screen("working_screen").blade.profiles[-1]
 
-        screen_manager.get_screen("working_screen").profile_list.adapter.data.extend([p.name])
+        screen_manager.get_screen(
+            "working_screen").profile_list.adapter.data.extend([p.name])
 
-        screen_manager.get_screen("working_screen").profile_list._trigger_reset_populate()
+        screen_manager.get_screen(
+            "working_screen").profile_list._trigger_reset_populate()
 
+        index_to_trigger = \
+            len(screen_manager.get_screen("working_screen").blade.profiles)-1
 
+        screen_manager.get_screen(
+            "working_screen").profile_list.adapter.get_view(
+            index_to_trigger).trigger_action(duration=0)
 
         self.dismiss()
 
