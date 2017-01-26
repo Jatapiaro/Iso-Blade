@@ -22,7 +22,8 @@ Builder.load_file('Kivy_Files/SaveLoad.kv')
 class ProfileListButton(ListItemButton):
 
     def change(self,change):
-        print("Currente: "+str(screen_manager.get_screen("working_screen").profile_list.adapter.selection))
+        ##print("Currente: "+str(screen_manager.get_screen("working_screen").profile_list.adapter.selection))
+        screen_manager.get_screen("working_screen").draw_on_change()
 
 
 
@@ -55,6 +56,11 @@ class WorkingScreen(Screen):
     def load_profile(self):
         load_dialog = LoadDialog()
         load_dialog.open()
+
+    def draw_on_change(self):
+        if self.profile_list.adapter.selection:
+            print(self.profile_list.adapter.selection[0].text)
+
 
     def draw(self):
         fig, ax = plt.subplots()
@@ -110,6 +116,8 @@ class LoadDialog(Popup):
         screen_manager.get_screen("working_screen").profile_list.adapter.data.extend([p.name])
 
         screen_manager.get_screen("working_screen").profile_list._trigger_reset_populate()
+
+
 
         self.dismiss()
 
