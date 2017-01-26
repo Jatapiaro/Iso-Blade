@@ -77,12 +77,12 @@ class Profile(object):
     def name(self):
         return self.__name
 
-    @center.setter
-    def center(self,name):
+    @name.setter
+    def name(self,name):
         if isinstance(name,str):
             self.__name = name
         else:
-            self.__center = Point(0,0)
+            self.__name = ""
 
 
     def __repr__(self):

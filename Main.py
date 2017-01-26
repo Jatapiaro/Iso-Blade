@@ -85,13 +85,16 @@ class LoadDialog(Popup):
 
     profile_name = ObjectProperty(None)
 
-    def load_profile(self,path,file_name):
-
-        print("Path of profile: "+file_name[0])
+    def load_profile(self,path,file_name,profile_name):
 
         x_points,y_points = FilesModule.load_profile(file_name[0])
 
         p = Profile(x_points,y_points)
+
+        if(len(profile_name) == 0):
+            p.name = file_name[0].replace(path+"/","").replace(".csv","")
+        else:
+            p.name = profile_name
 
         screen_manager.get_screen("working_screen").blade.add_profile(p)
 
@@ -101,7 +104,7 @@ class LoadDialog(Popup):
 
         p = screen_manager.get_screen("working_screen").blade.profiles[-1]
 
-        screen_manager.get_screen("working_screen").profile_list.adapter.data.extend([p])
+        screen_manager.get_screen("working_screen").profile_list.adapter.data.extend([p.name])
 
         screen_manager.get_screen("working_screen").profile_list._trigger_reset_populate()
 

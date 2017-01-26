@@ -36,11 +36,21 @@
             id: filechooser
             filters: ['*.csv']
 
-        TextInput:
-            id: text_input
+        BoxLayout:
+            orientation: "horizontal"
             size_hint_y: None
             height: 30
-            multiline: False
+
+            Label:
+                text: "Give a name to the profile: "
+                size_hint_y: None
+                height: 30
+            TextInput:
+                id: text_input
+                size_hint_y: None
+                height: 30
+                multiline: False
+
 
         BoxLayout:
             size_hint_y: None
@@ -51,7 +61,7 @@
 
             Button:
                 text: "Load"
-                on_release: root.load_profile(filechooser.path,filechooser.selection)
+                on_release: root.load_profile(filechooser.path,filechooser.selection,text_input.text)
 
 <LoadBladeDialog>:
     BoxLayout:
