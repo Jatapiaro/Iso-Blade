@@ -2,23 +2,27 @@ import numpy as np
 import pickle
 import csv
 import os
+
 np.set_printoptions(suppress=True)
 
-def save_blade(blade,file_name,path):
+
+def save_blade(blade, file_name, path):
     file_name += ".ibd"
     path += "/" + file_name
     pickle._dump(blade, open(path, "wb"))
     return path
 
-def update_blade(blade,path):
-    pickle._dump(blade,open(path,"wb"))
+
+def update_blade(blade, path):
+    pickle._dump(blade, open(path, "wb"))
     return path
 
+
 def load_blade(path):
-    pass
+    return pickle.load(open(path, "rb"))
+
 
 def load_profile(path):
-
     x_points = []
     y_points = []
 
@@ -31,6 +35,4 @@ def load_profile(path):
             x_points.append(x)
             y_points.append(y)
 
-    return np.array(x_points),np.array(y_points)
-
-
+    return np.array(x_points), np.array(y_points)

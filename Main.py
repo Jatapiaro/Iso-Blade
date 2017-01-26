@@ -1,4 +1,3 @@
-import kivy
 import matplotlib
 matplotlib.use('module://kivy.garden.matplotlib.backend_kivy')
 from kivy.garden.matplotlib.backend_kivyagg import FigureCanvas,\
@@ -14,17 +13,21 @@ from Models.Blade import Blade
 import matplotlib.pyplot as plt
 from kivy.app import App
 
-Builder.load_file('Kivy_Files/InitialScreen.kv')
 Builder.load_file('Kivy_Files/WorkingScreen.kv')
+Builder.load_file('Kivy_Files/InitialScreen.kv')
 Builder.load_file('Kivy_Files/SaveLoad.kv')
 
 
 class ProfileListButton(ListItemButton):
 
     def change(self,change):
-        print("Currente: "+str(change.text))
-        screen_manager.get_screen("working_screen").draw_on_change()
-
+        if screen_manager.get_screen("working_screen").profile_added is True:
+            screen_manager.get_screen(
+                "working_screen").draw_on_profile_change()
+        else:
+            screen_manager.get_screen("working_screen").profile_added = False
+            screen_manager.get_screen("working_screen").profile_selected = change.text
+            screen_manager.get_screen("working_screen").draw_on_selection_change()
 
 
 class InitialScreen(Screen):
@@ -33,7 +36,8 @@ class InitialScreen(Screen):
        save_dialog.open()
 
    def load_blade(self):
-       pass
+       load_dialog = LoadBladeDialog()
+       load_dialog.open()
 
    def close_app(self):
        App.get_running_app().stop()
@@ -43,6 +47,8 @@ class WorkingScreen(Screen):
 
     blade = Blade()
     blade_path = ""
+    profile_added = False
+    profile_selected = ""
 
     control_points_input = ObjectProperty()
     percentage_input =  ObjectProperty()
@@ -57,9 +63,21 @@ class WorkingScreen(Screen):
         load_dialog = LoadDialog()
         load_dialog.open()
 
-    def draw_on_change(self):
-        pass
+    def draw_on_profile_load(self):
+        fig, ax = plt.subplots()
+        p = self.blade.profiles[-1]
+        plt.plot(p.x_coordinates,p.y_coordinates)
+        self.ids['drawing_box'].clear_widgets()
+        self.ids['drawing_box'].add_widget(fig.canvas)
 
+    def draw_on_selection_change(self):
+        fig, ax = plt.subplots()
+        for profile in self.blade.profiles:
+            if profile.name == self.profile_selected:
+                self.ids['drawing_box'].clear_widgets()
+                ax.plot(profile.x_coordinates,profile.y_coordinates)
+                self.ids['drawing_box'].add_widget(fig.canvas)
+                break
 
     def draw(self):
         fig, ax = plt.subplots()
@@ -79,7 +97,6 @@ class SaveDialog(Popup):
     file_name = ObjectProperty(None)
 
     def save_file(self,path,file_name):
-
         path = FilesModule.save_blade(
             screen_manager.get_screen("working_screen").blade,file_name,path)
 
@@ -91,6 +108,7 @@ class SaveDialog(Popup):
 class LoadDialog(Popup):
 
     profile_name = ObjectProperty(None)
+
 
     def load_profile(self,path,file_name,profile_name):
 
@@ -125,10 +143,22 @@ class LoadDialog(Popup):
             "working_screen").profile_list.adapter.get_view(
             index_to_trigger).trigger_action(duration=0)
 
+        screen_manager.get_screen(
+            "working_screen").profile_load = True
+
+        screen_manager.get_screen(
+            "working_screen").draw_on_profile_load()
+
         self.dismiss()
 
+
+class LoadBladeDialog(Popup):
+
     def load_blade(self,path):
-        pass
+        screen_manager.get_screen(
+            "working_screen").blade = FilesModule.load_blade(path[0])
+        screen_manager.current = 'working_screen'
+        self.dismiss()
 
 
 class IsoBladeApp(App):
