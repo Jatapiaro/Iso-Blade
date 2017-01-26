@@ -22,8 +22,7 @@ class ProfileListButton(ListItemButton):
 
     def change(self,change):
         if screen_manager.get_screen("working_screen").profile_added is True:
-            screen_manager.get_screen(
-                "working_screen").draw_on_profile_change()
+            screen_manager.get_screen("working_screen").profile_added = False
         else:
             screen_manager.get_screen("working_screen").profile_added = False
             screen_manager.get_screen("working_screen").profile_selected = change.text
@@ -55,9 +54,13 @@ class WorkingScreen(Screen):
     profile_list = ObjectProperty()
 
     def on_pre_enter(self, *args):
-        fig, ax = plt.subplots()
-        self.ids['drawing_box'].clear_widgets()
-        self.ids['drawing_box'].add_widget(fig.canvas)
+        if len(self.blade.profiles) == 0:
+            fig, ax = plt.subplots()
+            self.ids['drawing_box'].clear_widgets()
+            self.ids['drawing_box'].add_widget(fig.canvas)
+        else:
+            self.set_after_load()
+
 
     def load_profile(self):
         load_dialog = LoadDialog()
@@ -79,12 +82,18 @@ class WorkingScreen(Screen):
                 self.ids['drawing_box'].add_widget(fig.canvas)
                 break
 
-    def draw(self):
+    def set_after_load(self):
+        for profile in self.blade.profiles:
+            self.profile_list.adapter.data.extend([profile.name])
+        self.profile_list._trigger_reset_populate()
+        self.profile_added = True
+        self.profile_list.adapter.get_view(0).trigger_action(duration=0)
         fig, ax = plt.subplots()
-        ax.plot([1, 2, 3])
-        ax.plot([-1, -2, -3])
+        p = self.blade.profiles[0]
+        plt.plot(p.x_coordinates,p.y_coordinates)
         self.ids['drawing_box'].clear_widgets()
         self.ids['drawing_box'].add_widget(fig.canvas)
+
 
 
 screen_manager = ScreenManager()
@@ -140,11 +149,11 @@ class LoadDialog(Popup):
             len(screen_manager.get_screen("working_screen").blade.profiles)-1
 
         screen_manager.get_screen(
-            "working_screen").profile_list.adapter.get_view(
-            index_to_trigger).trigger_action(duration=0)
+            "working_screen").profile_load = True
 
         screen_manager.get_screen(
-            "working_screen").profile_load = True
+            "working_screen").profile_list.adapter.get_view(
+            index_to_trigger).trigger_action(duration=0)
 
         screen_manager.get_screen(
             "working_screen").draw_on_profile_load()
