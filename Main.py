@@ -22,7 +22,7 @@ Builder.load_file('Kivy_Files/SaveLoad.kv')
 class ProfileListButton(ListItemButton):
 
     def change(self,change):
-        ##print("Currente: "+str(screen_manager.get_screen("working_screen").profile_list.adapter.selection))
+        print("Currente: "+str(change.text))
         screen_manager.get_screen("working_screen").draw_on_change()
 
 
