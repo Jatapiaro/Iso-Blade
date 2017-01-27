@@ -21,12 +21,14 @@ Builder.load_file('Kivy_Files/SaveLoad.kv')
 class ProfileListButton(ListItemButton):
 
     def change(self,change):
+        print("Hola: "+str(change.index))
+    """def change(self,change):
         if screen_manager.get_screen("working_screen").profile_added is True:
             screen_manager.get_screen("working_screen").profile_added = False
         else:
             screen_manager.get_screen("working_screen").profile_added = False
             screen_manager.get_screen("working_screen").profile_selected = change.text
-            screen_manager.get_screen("working_screen").draw_on_selection_change()
+            screen_manager.get_screen("working_screen").draw_on_selection_change()"""
 
 
 class InitialScreen(Screen):
