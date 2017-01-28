@@ -21,14 +21,12 @@ Builder.load_file('Kivy_Files/SaveLoad.kv')
 class ProfileListButton(ListItemButton):
 
     def change(self,change):
-        print("Hola: "+str(change.index))
-    """def change(self,change):
         if screen_manager.get_screen("working_screen").profile_added is True:
             screen_manager.get_screen("working_screen").profile_added = False
         else:
             screen_manager.get_screen("working_screen").profile_added = False
-            screen_manager.get_screen("working_screen").profile_selected = change.text
-            screen_manager.get_screen("working_screen").draw_on_selection_change()"""
+            screen_manager.get_screen("working_screen").profile_selected = change.index
+            screen_manager.get_screen("working_screen").draw_on_selection_change()
 
 
 class InitialScreen(Screen):
@@ -79,14 +77,12 @@ class WorkingScreen(Screen):
 
     def draw_on_selection_change(self):
         fig, ax = plt.subplots()
-        for profile in self.blade.profiles:
-            if profile.name == self.profile_selected:
-                self.ids['drawing_box'].clear_widgets()
-                plt.axis([-0.2, 1.2, -0.7, .7])
-                plt.plot(profile.x_coordinates,profile.y_coordinates)
-                plt.plot(profile.center.x, profile.center.y,'g^')
-                self.ids['drawing_box'].add_widget(fig.canvas)
-                break
+        profile = self.blade.profiles[self.profile_selected]
+        self.ids['drawing_box'].clear_widgets()
+        plt.axis([-0.2, 1.2, -0.7, .7])
+        plt.plot(profile.x_coordinates,profile.y_coordinates)
+        plt.plot(profile.center.x, profile.center.y,'g^')
+        self.ids['drawing_box'].add_widget(fig.canvas)
 
     def set_after_load(self):
         for profile in self.blade.profiles:
