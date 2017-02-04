@@ -28,6 +28,9 @@ class ProfileListButton(ListItemButton):
             screen_manager.get_screen("working_screen").profile_selected = change.index
             screen_manager.get_screen("working_screen").draw_on_selection_change()
 
+class PointListButton():
+    pass
+
 
 class InitialScreen(Screen):
    def new_blade(self):

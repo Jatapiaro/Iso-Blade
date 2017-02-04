@@ -1,60 +1,82 @@
-from Models.Point import Point
-from Models.Profile import Profile
 import numpy as np
+import scipy.interpolate as si
 import matplotlib.pyplot as plt
-
 import csv
-
 np.set_printoptions(suppress=True)
 
-p = Profile()
-points_up = []
-points_down = []
+def bspline(cv, n=100, degree=3):
+    """ Calculate n samples on a bspline
+
+        cv :      Array ov control vertices
+        n  :      Number of samples to return
+        degree:   Curve degree
+    """
+    n+=1
+    cv = np.asarray(cv)
+    count = len(cv)
+
+    factor, fraction = divmod(count+degree+1, count)
+    cv = np.concatenate((cv,) * factor + (cv[:fraction],))
+    count = len(cv)
+    degree = np.clip(degree,1,degree)
 
 
-"""
-We used python csv instead of numpy to sort all the data,
-the next step is to convert all the point list in a numpy ndarray
-"""
+    # Calculate knot vector
+    kv = None
+    kv = np.arange(0-degree,count+degree+degree-1,dtype='int')
 
-with open('/Users/jacobotapia/Desktop/sorted.csv') as csvfile:
+    # Calculate query range
+    u = np.linspace(True,(count-degree),n)
+
+
+    # Calculate result
+    arange = np.arange(len(u))
+    points = np.zeros((len(u),cv.shape[1]))
+    for i in range(cv.shape[1]):
+        points[arange,i] = si.splev(u, (kv,cv[:,i],degree))
+
+    return points
+
+colors = ('b', 'g', 'r', 'c', 'm', 'y', 'k')
+
+
+x_coordinates = []
+y_coordinates = []
+with open('/Users/jacobotapia/Desktop/otro.csv') as csvfile:
     readCSV = csv.reader(csvfile,delimiter=',')
 
     for row in readCSV:
         x = float(row[0])
         y = float(row[1])
-        if x != 1 and y != 0:
-            if y >= 0:
-                points_up.append(Point(x, y))
-            else:
-                points_down.append(Point(x, y))
+        x_coordinates.append(x)
+        y_coordinates.append(y)
 
-
-x_coordinates = []
-y_coordinates = []
-
-points_up.sort()
-points_down.sort()
-points_up.reverse()
-
-points = points_up + points_down
-
-points.append(Point(float(1),float(0)))
-points.insert(0,Point(float(1),float(0)))
-
-for point in points:
-    x_coordinates.append(point.x)
-    y_coordinates.append(point.y)
 
 numpy_coordinates_x = np.array(x_coordinates)
 numpy_coordinates_y = np.array(y_coordinates)
 
-p.x_coordinates = numpy_coordinates_x
-p.y_coordinates = numpy_coordinates_y
 
 st = np.column_stack((numpy_coordinates_x,numpy_coordinates_y))
 
-plt.plot(p.x_coordinates,p.y_coordinates)
 
 
+cv = st
+
+
+plt.plot(cv[:,0],cv[:,1], label='Control Points')
+
+p = bspline(cv, n=10, degree=3)
+x, y = p.T
+plt.plot(x,y,'^',label='Degree %s'%3,color=colors[3%len(colors)])
+
+st2 = np.column_stack((x,y))
+print(st2)
+
+
+
+plt.minorticks_on()
+plt.xlabel('x')
+plt.ylabel('y')
+plt.gca().set_aspect('equal', adjustable='box')
 plt.show()
+
